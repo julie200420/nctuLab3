@@ -165,13 +165,21 @@ Open two terminal, run topo.py in one terminal,
 > * Answer the following questions
 
 1. Describe the difference between packet-in and packet-out in detail.
+
    packet-in : a controller receives a packet from a switch, so a controller can receive information
+   
    packet-out : a controller sends a packets to a switch to tell a switch how to transfer packets
    
+   
 2. What is “table-miss” in SDN?
+
    If a packet doesn't find a match flow entry in flow table, we call "table-miss".
    
+   
 3. Why is "`(app_manager.RyuApp)`" adding after the declaration of class in `controller.py`?
+
+   In order to apply Ryu application, we need to inherit ryu.base.app_manager.RyuApp
+   
    
 4. Explain the following code in `controller.py`.
     ```python
@@ -181,6 +189,8 @@ Open two terminal, run topo.py in one terminal,
 5. What is the meaning of “datapath” in `controller.py`?
    
 6. Why need to set "`ip_proto=17`" in the flow entry?
+
+   It is UDP source port.
    
 7. Compare the differences between the iPerf results of `SimpleController.py` and `controller.py` in detail.
    
