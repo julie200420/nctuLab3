@@ -126,7 +126,7 @@ Open two terminal, run topo.py in one terminal,
         
    (2.) only modify the method switch_features_handler(self, ev) to follow the forwarding rule
    
-      ![alt text](forwarding_rule.PNG)
+      ![alt text](forward_rule.PNG)
       
       an example of one forwarding rule :
       
