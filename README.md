@@ -18,26 +18,41 @@ In this lab, we are going to write a Python program with Ryu SDN framework to bu
 
 > TODO:
 > * How to run your program?
-    Open two terminal, run topo.py
+
+Open two terminal, run topo.py in one terminal, 
+    
     $ [sudo] mn --custom topo.py --topo topo --link tc --controller remote
-    in one terminal, then run controller.py
+    
+  then run controller.py in the other terminal
+    
     $ [sudo] ryu-manager controller.py –observe-links
-    in the other terminal
+   
     
 > * What is the meaning of the executing command (both Mininet and Ryu controller)?
-    About the above command line of Mininet:
+    
+  About the above command line of Mininet:
+    
     "--custom" means read custom classes or parameters from .py file
+    
     "--topo" determines the topology we want
+    
     "--link" determines the link we want
+    
     "--controller" determines the controller we want. In this lab, we type remote because we want use Ryu.
-    About the above command of Ryu:
+    
+  About the above command of Ryu:
+    
     "ryu-manager" is the executable for Ryu applications
+    
     "--observe-links" observe link discovery events.
     
+    
 > * Show the screenshot of using iPerf command in Mininet (both `SimpleController.py` and `controller.py`)
-    SimpleController.py
+    
+  SimpleController.py
     ![alt text](screenshot_result1.PNG)
-    controller.py
+    
+  controller.py
     ![alt text](screenshot_result2.PNG)
 
 ---
@@ -85,20 +100,64 @@ In this lab, we are going to write a Python program with Ryu SDN framework to bu
         $ [sudo] ryu-manager SimpleController.py --observelinks
         
    (4.) exit the program
+      in the terminal runnning SimpleTopo.py
         
-        in the terminal runnning SimpleTopo.py
         mininet> exit
         
-        in the terminal running SimpleController.py
+      in the terminal running SimpleController.py do the following command to make sure that RTNETLINK is clean
+        
         Ctrl-z
         $ mn -c
-        to make sure that RTNETLINK is clean
+        
 
 3. Mininet Topology
-
+   
+   (1.) copy SimpleTopo.py
+   
+        $ cp SimpleTopo.py topo.py
+        
+   (2.) Based on the topology of /Route_Configuration/src/topo/topo.png to add bandwidth, delay and loss in topo.py
+   
 4. Ryu Controller
+   
+   (1.) copy SimpleController.py 
+   
+        $ cp SimpleController.py controller.py
+        
+   (2.) only modify the method switch_features_handler(self, ev) to follow the forwarding rule
+   
+      ![alt text](forwarding_rule.PNG)
+      
+      an example of one forwarding rule :
+      
+       if msg.datapath.id == 1:                       # if it is s1
+           # For h1-h2 flow: h1 -> s1 -> s3
+           match = parser.OFPMatch(
+               in_port=1,                             # the s1's port connecting to h1 
+               eth_type=0x0800,
+               ipv4_src="10.0.0.1",                   # source (h1)
+               ipv4_dst="10.0.0.2",                   # destination(h2)
+               ip_proto=17,
+               udp_dst=5566)
+           actions = [parser.OFPActionOutput(3)]      # the s1's port connecting to s3  
+           self.add_flow(
+               datapath=datapath,
+               priority=3,
+               match=match,
+               actions=actions)
+
 
 5. Measurement
+
+   (1.) measure bandwidth of topo.py with SimpleController.py ( follow Task 2. to run topo.py and SimpleController.py first)
+      
+        mininet> h1 iperf -s -u -i 1 –p 5566 > ./out/result1 &
+        mininet> h2 iperf -c 10.0.0.1 -u –i 1 –p 5566
+        
+   (2.) measure bandwidth of topo.py with controller.py ( follow Task 2. to run topo.py and controller.py first), the command is same as (1.)
+   
+   (3.) exit the program as Task 2.
+   
 
 ### Discussion
 
@@ -161,7 +220,7 @@ In this lab, we are going to write a Python program with Ryu SDN framework to bu
 > TODO:
 > * Please replace "`YOUR_NAME`" and "`YOUR_GITHUB_LINK`" into yours
 
-* [YOUR_NAME](YOUR_GITHUB_LINK)
+* [Julie Liu](https://github.com/julie200420)
 * [David Lu](https://github.com/yungshenglu)
 
 ---
