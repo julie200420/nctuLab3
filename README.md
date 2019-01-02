@@ -16,7 +16,6 @@ In this lab, we are going to write a Python program with Ryu SDN framework to bu
 ---
 ## Execution
 
-> TODO:
 > * How to run your program?
 
 Open two terminal, run topo.py in one terminal, 
@@ -59,9 +58,6 @@ Open two terminal, run topo.py in one terminal,
 ## Description
 
 ### Tasks
-
-> TODO:
-> * Describe how you finish this work in detail
 
 1. Environment Setup
    (1.) click https://classroom.github.com/a/RHNMq4Td and join this lab
@@ -161,9 +157,6 @@ Open two terminal, run topo.py in one terminal,
 
 ### Discussion
 
-> TODO:
-> * Answer the following questions
-
 1. Describe the difference between packet-in and packet-out in detail.
 
    packet-in : a controller receives a packet from a switch, so a controller can receive information
@@ -185,22 +178,34 @@ Open two terminal, run topo.py in one terminal,
     ```python
     @set_ev_cls(ofp_event.EventOFPPacketIn, CONFIG_DISPATCHER)
     ```
+    
+    It's a decorator for Ryu application to declare an event handler. 
+    
+       * ryu.controller.handler.set_ev_cls(ev_cls, dispatchers=None)
+    
+    ofp_event.EventOFPPacketIn, which corresponds to ev_cls, is an event class whose instances this RyuApp wants to receive.
+    
+    dispatchers argument specifies one phase for which events should be generated for this handler. In this lab, it is CONFIG_DISPATCHER which is version negotiated and sent features-request message
+    
 
 5. What is the meaning of “datapath” in `controller.py`?
+
+   It's a class to describe an OpenFlow switch conneted to the controller. By receiving the message, controller can know information.
    
 6. Why need to set "`ip_proto=17`" in the flow entry?
 
-   It is UDP source port.
+   We need to define the type of protocol. It is UDP source port.
    
 7. Compare the differences between the iPerf results of `SimpleController.py` and `controller.py` in detail.
+
+   controller.py has lower loss rate and bandwidth than SimpleController.py.
    
 8. Which forwarding rule is better? Why?
 
+   controller.py is better. From /out directory, we found that forwarding rule in controller.py is better for this topo. Specifically, controller.py performs fewer loss and higher bandwidth. Actully based on link we defined, we can intuitively tell that s3 -> s2 -> s1 is the better path, because it has higher bw, smaller delay, and lower loss rate overall.
+
 ---
 ## References
-
-> TODO: 
-> * Please add your references in the following
 
 * **Ryu SDN**
     * [Ryubook Documentation](https://osrg.github.io/ryu-book/en/html/)
@@ -226,9 +231,6 @@ Open two terminal, run topo.py in one terminal,
 
 ---
 ## Contributors
-
-> TODO:
-> * Please replace "`YOUR_NAME`" and "`YOUR_GITHUB_LINK`" into yours
 
 * [Julie Liu](https://github.com/julie200420)
 * [David Lu](https://github.com/yungshenglu)
