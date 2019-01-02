@@ -18,7 +18,7 @@ In this lab, we are going to write a Python program with Ryu SDN framework to bu
 
 > * How to run your program?
 
-Open two terminal, run topo.py in one terminal, 
+Open two terminal, both go to the /Route_Configuraiton/scr and run topo.py in one terminal, 
     
     $ [sudo] mn --custom topo.py --topo topo --link tc --controller remote
     
